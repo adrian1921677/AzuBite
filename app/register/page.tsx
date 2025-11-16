@@ -66,9 +66,10 @@ export default function RegisterPage() {
             <Image
                 src="/logo.png"
               alt="AzuBite Logo"
-              width={150}
-              height={50}
-              className="mx-auto"
+              width={250}
+              height={100}
+              className="h-20 w-auto mx-auto"
+              priority
             />
           </Link>
           <h1 className="text-2xl font-bold mt-4">Registrieren</h1>
