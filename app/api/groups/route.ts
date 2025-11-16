@@ -8,7 +8,7 @@ const groupSchema = z.object({
   name: z.string().min(1, "Name ist erforderlich"),
   description: z.string().optional(),
   isPublic: z.boolean().default(true),
-  avatar: z.string().url().optional(),
+  avatar: z.string().url().optional().or(z.literal("")),
 });
 
 // GET: Liste aller Gruppen
@@ -79,12 +79,20 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validatedData = groupSchema.parse(body);
 
-    // Erstelle Gruppe
+    // Erstelle Gruppe (entferne leeres Avatar-Feld)
+    const groupData: any = {
+      name: validatedData.name,
+      description: validatedData.description || null,
+      isPublic: validatedData.isPublic,
+      ownerId: session.user.id,
+    };
+
+    if (validatedData.avatar && validatedData.avatar.trim() !== "") {
+      groupData.avatar = validatedData.avatar;
+    }
+
     const group = await prisma.group.create({
-      data: {
-        ...validatedData,
-        ownerId: session.user.id,
-      },
+      data: groupData,
     });
 
     // Füge Ersteller als Admin hinzu

@@ -8,7 +8,7 @@ const updateGroupSchema = z.object({
   name: z.string().min(1).optional(),
   description: z.string().optional(),
   isPublic: z.boolean().optional(),
-  avatar: z.string().url().optional(),
+  avatar: z.string().url().optional().or(z.literal("")),
 });
 
 // GET: Einzelne Gruppe abrufen
@@ -131,9 +131,18 @@ export async function PUT(
     const body = await request.json();
     const validatedData = updateGroupSchema.parse(body);
 
+    // Bereite Update-Daten vor (entferne leeres Avatar-Feld)
+    const updateData: any = {};
+    if (validatedData.name !== undefined) updateData.name = validatedData.name;
+    if (validatedData.description !== undefined) updateData.description = validatedData.description || null;
+    if (validatedData.isPublic !== undefined) updateData.isPublic = validatedData.isPublic;
+    if (validatedData.avatar !== undefined) {
+      updateData.avatar = validatedData.avatar.trim() !== "" ? validatedData.avatar : null;
+    }
+
     const updatedGroup = await prisma.group.update({
       where: { id: params.id },
-      data: validatedData,
+      data: updateData,
       include: {
         owner: {
           select: {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 
 export default function NewGroupPage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -24,8 +24,24 @@ export default function NewGroupPage() {
     isPublic: true,
   });
 
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+          <p className="mt-2 text-gray-600">Lädt...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!session) {
-    router.push("/login");
     return null;
   }
 
@@ -87,10 +103,16 @@ export default function NewGroupPage() {
     setIsLoading(true);
 
     try {
+      // Entferne leeres Avatar-Feld
+      const submitData = {
+        ...formData,
+        avatar: formData.avatar.trim() || undefined,
+      };
+
       const res = await fetch("/api/groups", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submitData),
       });
 
       if (res.ok) {

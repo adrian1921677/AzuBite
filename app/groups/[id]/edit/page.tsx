@@ -119,10 +119,16 @@ export default function EditGroupPage({ params }: { params: { id: string } }) {
     setIsSaving(true);
 
     try {
+      // Entferne leeres Avatar-Feld
+      const submitData = {
+        ...formData,
+        avatar: formData.avatar.trim() || undefined,
+      };
+
       const res = await fetch(`/api/groups/${params.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submitData),
       });
 
       if (res.ok) {
