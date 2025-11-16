@@ -175,7 +175,7 @@ export default function NewReportPage() {
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
             </div>
 
@@ -191,7 +191,7 @@ export default function NewReportPage() {
                   setFormData({ ...formData, description: e.target.value })
                 }
                 rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
             </div>
 
@@ -209,7 +209,7 @@ export default function NewReportPage() {
                     visibility: e.target.value as "PRIVATE" | "GROUP" | "PUBLIC",
                   })
                 }
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
                 <option value="PRIVATE">Privat (nur ich)</option>
                 <option value="GROUP">Gruppe</option>
@@ -227,7 +227,7 @@ export default function NewReportPage() {
                   id="groupId"
                   value={formData.groupId}
                   onChange={(e) => setFormData({ ...formData, groupId: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
                   <option value="">Gruppe auswählen</option>
                   {groups.map((group) => (
@@ -250,7 +250,7 @@ export default function NewReportPage() {
                 value={formData.profession}
                 onChange={(e) => setFormData({ ...formData, profession: e.target.value })}
                 placeholder="z.B. Fachinformatiker für Anwendungsentwicklung"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
             </div>
 
@@ -263,7 +263,7 @@ export default function NewReportPage() {
                 id="trainingYear"
                 value={formData.trainingYear}
                 onChange={(e) => setFormData({ ...formData, trainingYear: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
                 <option value="">Auswählen</option>
                 <option value="1">1. Jahr</option>
@@ -283,7 +283,7 @@ export default function NewReportPage() {
                 value={formData.tags}
                 onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
                 placeholder="z.B. Projektarbeit, Praktikum, Theorie"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
             </div>
 
