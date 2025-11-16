@@ -59,11 +59,18 @@ export function Mascot({
 }
 
 // Spezielle Varianten für verschiedene Kontexte
-export function EmptyStateMascot({ message }: { message: string }) {
+export function EmptyStateMascot({ 
+  message, 
+  action 
+}: { 
+  message: string;
+  action?: React.ReactNode;
+}) {
   return (
     <div className="flex flex-col items-center justify-center py-12 px-4">
       <Mascot size="lg" variant="empty" className="mb-4" />
-      <p className="text-gray-500 text-center max-w-md">{message}</p>
+      <p className="text-gray-500 text-center max-w-md mb-4">{message}</p>
+      {action && <div className="mt-2">{action}</div>}
     </div>
   );
 }
