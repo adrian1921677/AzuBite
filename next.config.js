@@ -11,6 +11,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.cloudflare.com',
       },
+      {
+        protocol: 'https',
+        hostname: '**.vercel.app',
+      },
     ],
   },
   experimental: {
@@ -18,6 +22,8 @@ const nextConfig = {
       bodySizeLimit: '10mb',
     },
   },
+  // Vercel optimizations
+  output: 'standalone',
 }
 
 module.exports = nextConfig
