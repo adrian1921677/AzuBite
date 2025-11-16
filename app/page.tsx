@@ -19,37 +19,39 @@ export default async function Home() {
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
 
-      {/* Hero Section - 25-30% kleiner */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
-        <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+      {/* Hero Section - 10-15% kleiner */}
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
             Willkommen bei AzuBite
           </h1>
-          <p className="text-lg text-gray-600 mb-3 max-w-2xl mx-auto">
+          <p className="text-base text-gray-600 mb-2 max-w-2xl mx-auto">
             Die kollaborative Plattform für Auszubildende. Teile deine
             Berichtshefte, lerne von anderen und baue dein Netzwerk auf.
           </p>
-          {/* Sub-Text für mehr Persönlichkeit */}
-          <p className="text-sm text-gray-500 mb-6 max-w-xl mx-auto">
-            Über 1.000 Auszubildende vertrauen bereits auf AzuBite • Kostenlos • Keine Kreditkarte erforderlich
+          {/* Sub-Text - glaubwürdig */}
+          <p className="text-sm text-gray-500 mb-5 max-w-xl mx-auto">
+            Bereits viele Auszubildende nutzen AzuBite täglich • Kostenlos • Keine Kreditkarte erforderlich
           </p>
           {!session && (
             <div className="flex gap-4 justify-center items-center">
               <Link href="/register">
-                <Button size="lg" className="bg-accent-500 hover:bg-accent-600 text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+                <Button size="lg" className="bg-accent-500 hover:bg-accent-600 text-white shadow-md hover:shadow-lg transition-all">
                   Jetzt starten
                 </Button>
               </Link>
-              <LoginButton href="/login" variant="hero">
-                Anmelden
-              </LoginButton>
+              <Link href="/login">
+                <Button size="lg" variant="outline" className="border-2 border-primary-500 text-primary-600 hover:bg-primary-50 hover:border-primary-600 transition-all">
+                  Anmelden
+                </Button>
+              </Link>
             </div>
           )}
         </div>
 
-        {/* Features mit Hover-Animationen und Farbsystem */}
+        {/* Features mit sanftem Schatten und Hover */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          <div className="bg-white p-8 rounded-xl border-2 border-gray-200 hover:border-primary-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+          <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-300 cursor-pointer group">
             <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">📄</div>
             <h3 className="text-xl font-semibold mb-3 text-gray-900 group-hover:text-primary-600 transition-colors">
               Berichtshefte
@@ -62,7 +64,7 @@ export default async function Home() {
               Mehr erfahren →
             </div>
           </div>
-          <div className="bg-white p-8 rounded-xl border-2 border-gray-200 hover:border-accent-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+          <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-300 cursor-pointer group">
             <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">👥</div>
             <h3 className="text-xl font-semibold mb-3 text-gray-900 group-hover:text-accent-500 transition-colors">
               Gruppen
@@ -74,7 +76,7 @@ export default async function Home() {
               Mehr erfahren →
             </div>
           </div>
-          <div className="bg-white p-8 rounded-xl border-2 border-gray-200 hover:border-primary-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+          <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:scale-[1.01] transition-all duration-300 cursor-pointer group">
             <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">💬</div>
             <h3 className="text-xl font-semibold mb-3 text-gray-900 group-hover:text-primary-600 transition-colors">
               Austausch
