@@ -68,11 +68,11 @@ export async function Navbar() {
               </>
             ) : (
               <>
-                <Link href="/login" className="hidden sm:block">
+                <div className="hidden sm:block">
                   <LoginButton href="/login" variant="navbar">
                     Anmelden
                   </LoginButton>
-                </Link>
+                </div>
                 <Link href="/register">
                   <Button size="sm" className="bg-accent-500 hover:bg-accent-600 text-white shadow-md hover:shadow-lg transition-all">
                     Registrieren

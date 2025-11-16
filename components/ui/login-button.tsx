@@ -202,7 +202,7 @@ export function LoginButton({
 
   if (href) {
     return (
-      <Link href={href} className="inline-block">
+      <Link href={href} className="inline-block" style={{ textDecoration: 'none' }}>
         {buttonContent}
       </Link>
     );
