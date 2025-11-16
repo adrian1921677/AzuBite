@@ -46,7 +46,7 @@ export function LoginButton({
           ? "px-6 py-2.5 rounded-full text-sm"
           : "px-8 py-4 rounded-xl w-full",
         "bg-gradient-to-r from-primary-500 via-primary-600 to-accent-500",
-        "text-white",
+        "text-white font-semibold",
         "shadow-lg shadow-primary-500/50",
         "transform transition-all duration-300",
         "hover:scale-105 hover:shadow-2xl hover:shadow-primary-500/70",
@@ -156,22 +156,27 @@ export function LoginButton({
         ))}
       </div>
 
-      {/* Button Text mit Glow */}
-      <span className="relative z-10 flex items-center justify-center gap-2 drop-shadow-lg">
+      {/* Button Text mit starkem Kontrast */}
+      <span className="relative z-10 flex items-center justify-center gap-2">
         <span
           className={cn(
+            "text-white font-semibold",
             "transition-all duration-300",
-            "group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+            "drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]",
+            "group-hover:drop-shadow-[0_2px_8px_rgba(0,0,0,0.7),0_0_12px_rgba(255,255,255,0.3)]",
+            "[text-shadow:0_1px_2px_rgba(0,0,0,0.8),0_0_8px_rgba(255,255,255,0.2)]"
           )}
         >
           {children}
         </span>
         <svg
           className={cn(
+            "text-white",
             "transition-all duration-300",
             variant === "navbar" ? "w-4 h-4" : "w-5 h-5",
             "group-hover:translate-x-1 group-hover:scale-110",
-            "drop-shadow-[0_0_4px_rgba(255,255,255,0.6)]"
+            "drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]",
+            "[filter:drop-shadow(0_1px_2px_rgba(0,0,0,0.8))]"
           )}
           fill="none"
           stroke="currentColor"
