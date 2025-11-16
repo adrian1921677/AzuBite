@@ -59,28 +59,46 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary-100 px-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
-        <div className="text-center mb-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary-100 px-4 relative overflow-hidden">
+      {/* Subtile Hintergrund-Shapes */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Großer Kreis oben rechts - Blau */}
+        <div 
+          className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-primary-400 opacity-[0.08] blur-3xl"
+          style={{ background: 'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)' }}
+        />
+        {/* Kleinerer Kreis unten links - Orange */}
+        <div 
+          className="absolute -bottom-24 -left-24 w-64 h-64 rounded-full bg-accent-400 opacity-[0.08] blur-3xl"
+          style={{ background: 'radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%)' }}
+        />
+        {/* Mittlerer Kreis rechts Mitte - Blau */}
+        <div 
+          className="absolute top-1/2 -right-16 w-48 h-48 rounded-full bg-primary-300 opacity-[0.06] blur-2xl"
+        />
+      </div>
+
+      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl border border-[#e8e8e8] p-8 relative z-10">
+        <div className="text-center mb-6">
           <Link href="/" className="inline-block">
             <Image
                 src="/logo.png"
               alt="AzuBite Logo"
-              width={250}
-              height={100}
-              className="h-20 w-auto mx-auto"
+              width={280}
+              height={112}
+              className="h-24 w-auto mx-auto"
               priority
             />
           </Link>
-          <h1 className="text-2xl font-bold mt-4">Registrieren</h1>
-          <p className="text-gray-600 mt-2">
+          <h1 className="text-2xl font-bold mt-3">Registrieren</h1>
+          <p className="text-gray-600 mt-3">
             Erstelle ein neues Konto
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
               Name
             </label>
             <input
@@ -89,12 +107,12 @@ export default function RegisterPage() {
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
               Email
             </label>
             <input
@@ -103,12 +121,12 @@ export default function RegisterPage() {
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
               Passwort
             </label>
             <input
@@ -118,12 +136,12 @@ export default function RegisterPage() {
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               required
               minLength={8}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
             />
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
               Passwort bestätigen
             </label>
             <input
@@ -132,13 +150,13 @@ export default function RegisterPage() {
               value={formData.confirmPassword}
               onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
             />
           </div>
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-full bg-accent-500 hover:bg-accent-600 text-white shadow-md hover:shadow-lg transition-all h-12 text-base font-semibold"
             disabled={isLoading}
           >
             {isLoading ? "Lädt..." : "Registrieren"}
