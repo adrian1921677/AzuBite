@@ -155,17 +155,17 @@ export default function ReportsPage() {
                   <div className="max-h-60 overflow-y-auto border border-gray-200 rounded-lg p-2">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {searchedProfessions.map((profession) => (
-                        <button
-                          key={profession}
-                          onClick={() => handleProfessionSelect(profession)}
-                          className={`px-3 py-2 text-left text-sm rounded-md transition-colors ${
-                            selectedProfession === profession
-                              ? "bg-primary-100 text-primary-700 border-2 border-primary-500"
-                              : "bg-white hover:bg-gray-50 border border-gray-200"
-                          }`}
-                        >
-                          {profession}
-                        </button>
+                  <button
+                    key={profession}
+                    onClick={() => handleProfessionSelect(profession)}
+                    className={`px-3 py-2 text-left text-sm rounded-md transition-colors ${
+                      selectedProfession === profession
+                        ? "bg-primary-100 text-primary-700 border-2 border-primary-500"
+                        : "bg-white hover:bg-gray-50 border border-gray-200 text-gray-900"
+                    }`}
+                  >
+                    {profession}
+                  </button>
                       ))}
                     </div>
                   </div>
@@ -182,6 +182,7 @@ export default function ReportsPage() {
                   <Button
                     variant="ghost"
                     size="sm"
+                    className="text-gray-700 hover:text-gray-900"
                     onClick={() => {
                       setSelectedProfession(null);
                       setSelectedCategory(null);
