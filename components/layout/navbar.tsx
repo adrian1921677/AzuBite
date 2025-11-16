@@ -61,7 +61,7 @@ export function Navbar() {
             {mounted && session ? (
               <>
                 <Link href="/profile">
-                  <Button variant="ghost" className="hidden sm:inline-flex">
+                  <Button variant="ghost" className="inline-flex">
                     Profil
                   </Button>
                 </Link>
