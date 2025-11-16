@@ -8,7 +8,7 @@ const groupSchema = z.object({
   name: z.string().min(1, "Name ist erforderlich"),
   description: z.string().optional(),
   isPublic: z.boolean().default(true),
-  avatar: z.string().url().optional().or(z.literal("")),
+  avatar: z.union([z.string().url(), z.literal("")]).optional(),
 });
 
 // GET: Liste aller Gruppen
