@@ -7,7 +7,7 @@ import { randomBytes } from "crypto";
 // GET: Einladungs-Link generieren oder abrufen
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> | { id: string } }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -15,8 +15,12 @@ export async function GET(
       return NextResponse.json({ error: "Nicht autorisiert" }, { status: 401 });
     }
 
+    // Handle params as Promise (Next.js 15+) or object (Next.js 14)
+    const resolvedParams = await Promise.resolve(params);
+    const groupId = resolvedParams.id;
+
     const group = await prisma.group.findUnique({
-      where: { id: params.id },
+      where: { id: groupId },
     });
 
     if (!group) {
@@ -33,7 +37,7 @@ export async function GET(
     if (!inviteToken) {
       inviteToken = randomBytes(32).toString("hex");
       await prisma.group.update({
-        where: { id: params.id },
+        where: { id: groupId },
         data: { inviteToken },
       });
     }
@@ -55,7 +59,7 @@ export async function GET(
 // POST: Neuen Einladungs-Link generieren (Token zurücksetzen)
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> | { id: string } }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -63,8 +67,12 @@ export async function POST(
       return NextResponse.json({ error: "Nicht autorisiert" }, { status: 401 });
     }
 
+    // Handle params as Promise (Next.js 15+) or object (Next.js 14)
+    const resolvedParams = await Promise.resolve(params);
+    const groupId = resolvedParams.id;
+
     const group = await prisma.group.findUnique({
-      where: { id: params.id },
+      where: { id: groupId },
     });
 
     if (!group) {
@@ -79,7 +87,7 @@ export async function POST(
     // Generiere neuen Token
     const inviteToken = randomBytes(32).toString("hex");
     await prisma.group.update({
-      where: { id: params.id },
+      where: { id: groupId },
       data: { inviteToken },
     });
 
