@@ -40,7 +40,7 @@ export default async function Home() {
                   Jetzt starten
                 </Button>
               </Link>
-              <LoginButton href="/login" variant="page">
+              <LoginButton href="/login" variant="hero">
                 Anmelden
               </LoginButton>
             </div>
