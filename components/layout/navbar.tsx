@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import { LoginButton } from "@/components/ui/login-button";
 
 export async function Navbar() {
   let session = null;
@@ -67,13 +68,15 @@ export async function Navbar() {
               </>
             ) : (
               <>
-                <Link href="/login">
-                  <Button variant="ghost" className="hidden sm:inline-flex">
+                <Link href="/login" className="hidden sm:block">
+                  <LoginButton href="/login" variant="navbar">
                     Anmelden
-                  </Button>
+                  </LoginButton>
                 </Link>
                 <Link href="/register">
-                  <Button size="sm">Registrieren</Button>
+                  <Button size="sm" className="bg-accent-500 hover:bg-accent-600 text-white shadow-md hover:shadow-lg transition-all">
+                    Registrieren
+                  </Button>
                 </Link>
               </>
             )}

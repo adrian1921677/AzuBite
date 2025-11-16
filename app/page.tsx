@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import { LoginButton } from "@/components/ui/login-button";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 
@@ -33,17 +34,15 @@ export default async function Home() {
             Über 1.000 Auszubildende vertrauen bereits auf AzuBite • Kostenlos • Keine Kreditkarte erforderlich
           </p>
           {!session && (
-            <div className="flex gap-4 justify-center">
+            <div className="flex gap-4 justify-center items-center">
               <Link href="/register">
-                <Button size="lg" className="bg-primary-500 hover:bg-primary-600 text-white">
+                <Button size="lg" className="bg-accent-500 hover:bg-accent-600 text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
                   Jetzt starten
                 </Button>
               </Link>
-              <Link href="/login">
-                <Button size="lg" variant="outline" className="border-primary-300 text-primary-600 hover:bg-primary-50">
-                  Anmelden
-                </Button>
-              </Link>
+              <LoginButton href="/login" variant="page">
+                Anmelden
+              </LoginButton>
             </div>
           )}
         </div>
