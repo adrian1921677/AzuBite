@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -26,12 +26,14 @@ export default function NewReportPage() {
   const [groups, setGroups] = useState<any[]>([]);
 
   // Lade Gruppen beim Mount
-  useState(() => {
-    fetch("/api/groups/my")
-      .then((res) => res.json())
-      .then((data) => setGroups(data))
-      .catch(() => {});
-  });
+  useEffect(() => {
+    if (session) {
+      fetch("/api/groups/my")
+        .then((res) => res.json())
+        .then((data) => setGroups(data))
+        .catch(() => {});
+    }
+  }, [session]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
