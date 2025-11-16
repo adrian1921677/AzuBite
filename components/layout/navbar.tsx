@@ -61,7 +61,7 @@ export function Navbar() {
             {mounted && session ? (
               <>
                 <Link href="/profile">
-                  <Button variant="ghost" className="inline-flex">
+                  <Button variant="outline" size="sm" className="inline-flex text-gray-700 hover:text-primary-600">
                     Profil
                   </Button>
                 </Link>
