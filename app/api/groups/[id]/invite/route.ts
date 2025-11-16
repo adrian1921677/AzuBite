@@ -38,7 +38,9 @@ export async function GET(
       });
     }
 
-    const inviteUrl = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/groups/invite/${inviteToken}`;
+    // Verwende die aktuelle Request-URL für bessere Kompatibilität
+    const baseUrl = request.nextUrl.origin;
+    const inviteUrl = `${baseUrl}/groups/invite/${inviteToken}`;
 
     return NextResponse.json({ inviteUrl, inviteToken });
   } catch (error) {
@@ -81,7 +83,9 @@ export async function POST(
       data: { inviteToken },
     });
 
-    const inviteUrl = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/groups/invite/${inviteToken}`;
+    // Verwende die aktuelle Request-URL für bessere Kompatibilität
+    const baseUrl = request.nextUrl.origin;
+    const inviteUrl = `${baseUrl}/groups/invite/${inviteToken}`;
 
     return NextResponse.json({ inviteUrl, inviteToken });
   } catch (error) {

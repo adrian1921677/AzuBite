@@ -56,9 +56,14 @@ export function GroupDetail({ groupId, userId }: GroupDetailProps) {
       if (res.ok) {
         const data = await res.json();
         setInviteUrl(data.inviteUrl);
+      } else {
+        const errorData = await res.json().catch(() => ({}));
+        console.error("Fehler beim Laden des Einladungs-Links:", errorData);
+        toast.error(errorData.error || "Fehler beim Laden des Links");
       }
     } catch (error) {
       console.error("Fehler beim Laden des Einladungs-Links:", error);
+      toast.error("Fehler beim Laden des Links");
     }
   };
 
@@ -72,9 +77,12 @@ export function GroupDetail({ groupId, userId }: GroupDetailProps) {
         setInviteUrl(data.inviteUrl);
         toast.success("Neuer Einladungs-Link generiert");
       } else {
-        toast.error("Fehler beim Generieren des Links");
+        const errorData = await res.json().catch(() => ({}));
+        console.error("Fehler beim Generieren des Links:", errorData);
+        toast.error(errorData.error || "Fehler beim Generieren des Links");
       }
     } catch (error) {
+      console.error("Fehler beim Generieren des Links:", error);
       toast.error("Fehler beim Generieren des Links");
     }
   };
