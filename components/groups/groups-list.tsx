@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { EmptyStateMascot } from "@/components/ui/mascot";
 import toast from "react-hot-toast";
 
 export function GroupsList() {
@@ -71,9 +72,7 @@ export function GroupsList() {
 
       {/* Gruppenliste */}
       {groups.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-md p-8 text-center">
-          <p className="text-gray-500">Keine Gruppen gefunden</p>
-        </div>
+        <EmptyStateMascot message="Noch keine Gruppen gefunden. Erstelle eine neue Gruppe oder suche nach öffentlichen Gruppen!" />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {groups.map((group) => (

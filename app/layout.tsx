@@ -21,7 +21,18 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           {children}
-          <Toaster position="top-right" />
+          <Toaster 
+            position="top-right"
+            toastOptions={{
+              success: {
+                iconTheme: {
+                  primary: '#3b82f6',
+                  secondary: '#fff',
+                },
+                duration: 4000,
+              },
+            }}
+          />
         </Providers>
       </body>
     </html>

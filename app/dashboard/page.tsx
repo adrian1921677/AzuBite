@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { EmptyStateMascot, Mascot } from "@/components/ui/mascot";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -103,12 +104,14 @@ export default async function DashboardPage() {
               </div>
 
               {reports.length === 0 ? (
-                <div className="text-center py-8">
-                  <p className="text-gray-500 mb-4">Noch keine Berichte vorhanden</p>
-                  <Link href="/reports/new">
-                    <Button>Ersten Bericht hochladen</Button>
-                  </Link>
-                </div>
+                <EmptyStateMascot 
+                  message="Noch keine Berichtshefte hochgeladen. Starte jetzt und teile dein Wissen mit anderen Auszubildenden!"
+                  action={
+                    <Link href="/reports/new">
+                      <Button>Ersten Bericht hochladen</Button>
+                    </Link>
+                  }
+                />
               ) : (
                 <div className="space-y-4">
                   {reports.map((report) => (
@@ -161,7 +164,10 @@ export default async function DashboardPage() {
               </div>
 
               {groups.length === 0 ? (
-                <p className="text-gray-500 text-sm">Noch keiner Gruppe beigetreten</p>
+                <div className="text-center py-4">
+                  <Mascot size="md" variant="empty" className="mb-2" />
+                  <p className="text-gray-500 text-sm">Noch keiner Gruppe beigetreten</p>
+                </div>
               ) : (
                 <div className="space-y-3">
                   {groups.map(({ group }) => (
@@ -185,7 +191,10 @@ export default async function DashboardPage() {
               <h2 className="text-xl font-semibold mb-4">Benachrichtigungen</h2>
 
               {notifications.length === 0 ? (
-                <p className="text-gray-500 text-sm">Keine neuen Benachrichtigungen</p>
+                <div className="text-center py-4">
+                  <Mascot size="sm" variant="happy" className="mb-2" />
+                  <p className="text-gray-500 text-sm">Keine neuen Benachrichtigungen</p>
+                </div>
               ) : (
                 <div className="space-y-3">
                   {notifications.map((notification) => (
