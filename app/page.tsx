@@ -18,23 +18,29 @@ export default async function Home() {
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
 
-      {/* Hero Section */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+      {/* Hero Section - 25-30% kleiner */}
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+        <div className="text-center mb-10">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Willkommen bei AzuBite
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 mb-3 max-w-2xl mx-auto">
             Die kollaborative Plattform für Auszubildende. Teile deine
             Berichtshefte, lerne von anderen und baue dein Netzwerk auf.
+          </p>
+          {/* Sub-Text für mehr Persönlichkeit */}
+          <p className="text-sm text-gray-500 mb-6 max-w-xl mx-auto">
+            Über 1.000 Auszubildende vertrauen bereits auf AzuBite • Kostenlos • Keine Kreditkarte erforderlich
           </p>
           {!session && (
             <div className="flex gap-4 justify-center">
               <Link href="/register">
-                <Button size="lg">Jetzt starten</Button>
+                <Button size="lg" className="bg-primary-500 hover:bg-primary-600 text-white">
+                  Jetzt starten
+                </Button>
               </Link>
               <Link href="/login">
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="outline" className="border-primary-300 text-primary-600 hover:bg-primary-50">
                   Anmelden
                 </Button>
               </Link>
@@ -42,29 +48,44 @@ export default async function Home() {
           )}
         </div>
 
-        {/* Features - ähnlich gutefrage.net Layout */}
+        {/* Features mit Hover-Animationen und Farbsystem */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-          <div className="bg-gray-50 p-8 rounded-lg border border-gray-200 hover:border-primary-300 transition-colors">
-            <div className="text-4xl mb-4">📄</div>
-            <h3 className="text-xl font-semibold mb-3 text-gray-900">Berichtshefte</h3>
+          <div className="bg-white p-8 rounded-xl border-2 border-gray-200 hover:border-primary-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+            <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">📄</div>
+            <h3 className="text-xl font-semibold mb-3 text-gray-900 group-hover:text-primary-600 transition-colors">
+              Berichtshefte
+            </h3>
             <p className="text-gray-600">
               Lade deine Berichtshefte hoch und teile sie mit anderen
               Auszubildenden.
             </p>
+            <div className="mt-4 text-sm text-primary-500 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+              Mehr erfahren →
+            </div>
           </div>
-          <div className="bg-gray-50 p-8 rounded-lg border border-gray-200 hover:border-primary-300 transition-colors">
-            <div className="text-4xl mb-4">👥</div>
-            <h3 className="text-xl font-semibold mb-3 text-gray-900">Gruppen</h3>
+          <div className="bg-white p-8 rounded-xl border-2 border-gray-200 hover:border-accent-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+            <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">👥</div>
+            <h3 className="text-xl font-semibold mb-3 text-gray-900 group-hover:text-accent-500 transition-colors">
+              Gruppen
+            </h3>
             <p className="text-gray-600">
               Erstelle oder trete Gruppen bei und arbeite kollaborativ.
             </p>
+            <div className="mt-4 text-sm text-accent-500 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+              Mehr erfahren →
+            </div>
           </div>
-          <div className="bg-gray-50 p-8 rounded-lg border border-gray-200 hover:border-primary-300 transition-colors">
-            <div className="text-4xl mb-4">💬</div>
-            <h3 className="text-xl font-semibold mb-3 text-gray-900">Austausch</h3>
+          <div className="bg-white p-8 rounded-xl border-2 border-gray-200 hover:border-primary-400 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+            <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">💬</div>
+            <h3 className="text-xl font-semibold mb-3 text-gray-900 group-hover:text-primary-600 transition-colors">
+              Austausch
+            </h3>
             <p className="text-gray-600">
               Kommentiere und bewerte Berichte, um Feedback zu erhalten.
             </p>
+            <div className="mt-4 text-sm text-primary-500 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+              Mehr erfahren →
+            </div>
           </div>
         </div>
       </main>
