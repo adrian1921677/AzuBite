@@ -9,8 +9,8 @@ export function Footer() {
           {/* Brand-Bereich */}
           <div className="md:col-span-2">
             <h3 className="font-bold text-xl text-gray-900 mb-3">
-              <span className="text-primary-500">Azu</span>
-              <span className="text-accent-500">Bite</span>
+              <span className="text-primary-600">Azu</span>
+              <span className="text-accent-600">Bite</span>
             </h3>
             <p className="text-sm text-gray-600 mb-4 max-w-xs">
               Die kollaborative Plattform für Auszubildende. Teile Wissen, lerne gemeinsam und baue dein Netzwerk auf.
