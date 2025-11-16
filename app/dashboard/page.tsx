@@ -15,8 +15,13 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
-  // Lade Dashboard-Daten
-  const [reports, groups, notifications] = await Promise.all([
+  // Lade Dashboard-Daten mit Fehlerbehandlung
+  let reports: any[] = [];
+  let groups: any[] = [];
+  let notifications: any[] = [];
+
+  try {
+    [reports, groups, notifications] = await Promise.all([
     prisma.report.findMany({
       where: { authorId: session.user.id },
       include: {
@@ -69,6 +74,10 @@ export default async function DashboardPage() {
       take: 5,
     }),
   ]);
+  } catch (error) {
+    console.error("Fehler beim Laden der Dashboard-Daten:", error);
+    // Leere Arrays werden bereits gesetzt, Seite kann trotzdem angezeigt werden
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

@@ -5,7 +5,13 @@ import { authOptions } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
+  let session = null;
+  try {
+    session = await getServerSession(authOptions);
+  } catch (error) {
+    console.error("Fehler beim Laden der Session:", error);
+    // Session-Fehler nicht blockieren - Seite kann trotzdem angezeigt werden
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 to-primary-100">

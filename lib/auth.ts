@@ -6,6 +6,11 @@ import GitHubProvider from "next-auth/providers/github";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
+// Prüfe ob NEXTAUTH_SECRET gesetzt ist
+if (!process.env.NEXTAUTH_SECRET) {
+  console.warn("WARNING: NEXTAUTH_SECRET ist nicht gesetzt!");
+}
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
