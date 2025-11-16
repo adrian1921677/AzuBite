@@ -66,7 +66,7 @@ export function GroupsList() {
             setSearchTerm(e.target.value);
             loadGroups();
           }}
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
         />
       </div>
 

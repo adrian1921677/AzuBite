@@ -233,7 +233,7 @@ export function ReportDetail({ reportId, userId }: ReportDetailProps) {
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Schreibe einen Kommentar..."
             rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 mb-2"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 mb-2"
           />
           <Button type="submit" disabled={isSubmittingComment}>
             {isSubmittingComment ? "Lädt..." : "Kommentar hinzufügen"}
@@ -340,7 +340,7 @@ function CommentItem({
             onChange={(e) => setReplyText(e.target.value)}
             placeholder="Antwort schreiben..."
             rows={2}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 mb-2"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 mb-2"
           />
           <div className="flex gap-2">
             <Button type="submit" size="sm" disabled={isSubmitting}>
