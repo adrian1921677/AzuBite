@@ -122,6 +122,7 @@ model Group {
   description     String?         @db.Text
   isPublic        Boolean         @default(true)
   avatar          String?
+  inviteToken     String?         @unique // Token für Einladungs-Links
   
   ownerId         String
   createdAt       DateTime        @default(now())

@@ -1,0 +1,95 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { randomBytes } from "crypto";
+
+// GET: Einladungs-Link generieren oder abrufen
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Nicht autorisiert" }, { status: 401 });
+    }
+
+    const group = await prisma.group.findUnique({
+      where: { id: params.id },
+    });
+
+    if (!group) {
+      return NextResponse.json({ error: "Gruppe nicht gefunden" }, { status: 404 });
+    }
+
+    // Nur Besitzer kann Einladungs-Link generieren
+    if (group.ownerId !== session.user.id) {
+      return NextResponse.json({ error: "Keine Berechtigung" }, { status: 403 });
+    }
+
+    // Generiere Token falls noch keiner existiert
+    let inviteToken = group.inviteToken;
+    if (!inviteToken) {
+      inviteToken = randomBytes(32).toString("hex");
+      await prisma.group.update({
+        where: { id: params.id },
+        data: { inviteToken },
+      });
+    }
+
+    const inviteUrl = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/groups/invite/${inviteToken}`;
+
+    return NextResponse.json({ inviteUrl, inviteToken });
+  } catch (error) {
+    console.error("Fehler beim Generieren des Einladungs-Links:", error);
+    return NextResponse.json(
+      { error: "Ein Fehler ist aufgetreten" },
+      { status: 500 }
+    );
+  }
+}
+
+// POST: Neuen Einladungs-Link generieren (Token zurücksetzen)
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Nicht autorisiert" }, { status: 401 });
+    }
+
+    const group = await prisma.group.findUnique({
+      where: { id: params.id },
+    });
+
+    if (!group) {
+      return NextResponse.json({ error: "Gruppe nicht gefunden" }, { status: 404 });
+    }
+
+    // Nur Besitzer kann Einladungs-Link generieren
+    if (group.ownerId !== session.user.id) {
+      return NextResponse.json({ error: "Keine Berechtigung" }, { status: 403 });
+    }
+
+    // Generiere neuen Token
+    const inviteToken = randomBytes(32).toString("hex");
+    await prisma.group.update({
+      where: { id: params.id },
+      data: { inviteToken },
+    });
+
+    const inviteUrl = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/groups/invite/${inviteToken}`;
+
+    return NextResponse.json({ inviteUrl, inviteToken });
+  } catch (error) {
+    console.error("Fehler beim Generieren des Einladungs-Links:", error);
+    return NextResponse.json(
+      { error: "Ein Fehler ist aufgetreten" },
+      { status: 500 }
+    );
+  }
+}
+

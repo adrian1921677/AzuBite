@@ -18,7 +18,10 @@ export function GroupDetail({ groupId, userId }: GroupDetailProps) {
   const router = useRouter();
   const [group, setGroup] = useState<any>(null);
   const [isMember, setIsMember] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [inviteUrl, setInviteUrl] = useState<string | null>(null);
+  const [showInviteLink, setShowInviteLink] = useState(false);
 
   useEffect(() => {
     loadGroup();
@@ -30,15 +33,56 @@ export function GroupDetail({ groupId, userId }: GroupDetailProps) {
       if (res.ok) {
         const data = await res.json();
         setGroup(data);
-        setIsMember(
-          data.members.some((m: any) => m.userId === userId) ||
-            data.ownerId === userId
-        );
+        const memberCheck = data.members.some((m: any) => m.userId === userId);
+        const ownerCheck = data.ownerId === userId;
+        setIsMember(memberCheck || ownerCheck);
+        setIsOwner(ownerCheck);
+        
+        // Lade Einladungs-Link falls Besitzer
+        if (ownerCheck) {
+          loadInviteLink();
+        }
       }
     } catch (error) {
       toast.error("Fehler beim Laden der Gruppe");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const loadInviteLink = async () => {
+    try {
+      const res = await fetch(`/api/groups/${groupId}/invite`);
+      if (res.ok) {
+        const data = await res.json();
+        setInviteUrl(data.inviteUrl);
+      }
+    } catch (error) {
+      console.error("Fehler beim Laden des Einladungs-Links:", error);
+    }
+  };
+
+  const handleGenerateInviteLink = async () => {
+    try {
+      const res = await fetch(`/api/groups/${groupId}/invite`, {
+        method: "POST",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setInviteUrl(data.inviteUrl);
+        toast.success("Neuer Einladungs-Link generiert");
+      } else {
+        toast.error("Fehler beim Generieren des Links");
+      }
+    } catch (error) {
+      toast.error("Fehler beim Generieren des Links");
+    }
+  };
+
+  const copyInviteLink = () => {
+    if (inviteUrl) {
+      navigator.clipboard.writeText(inviteUrl);
+      toast.success("Link in Zwischenablage kopiert!");
     }
   };
 
@@ -94,7 +138,22 @@ export function GroupDetail({ groupId, userId }: GroupDetailProps) {
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-start mb-4">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold mb-2">{group.name}</h1>
+            <div className="flex items-center gap-4 mb-2">
+              {group.avatar ? (
+                <Image
+                  src={group.avatar}
+                  alt={group.name}
+                  width={64}
+                  height={64}
+                  className="rounded-lg object-cover"
+                />
+              ) : (
+                <div className="w-16 h-16 rounded-lg bg-primary-100 flex items-center justify-center text-primary-600 font-bold text-2xl">
+                  {group.name[0].toUpperCase()}
+                </div>
+              )}
+              <h1 className="text-3xl font-bold">{group.name}</h1>
+            </div>
             {group.description && (
               <p className="text-gray-600 mb-4">{group.description}</p>
             )}
@@ -131,8 +190,20 @@ export function GroupDetail({ groupId, userId }: GroupDetailProps) {
               </span>
             </div>
           </div>
-          <div className="ml-4">
-            {isMember ? (
+          <div className="ml-4 flex flex-col gap-2">
+            {isOwner ? (
+              <>
+                <Link href={`/groups/${groupId}/edit`}>
+                  <Button variant="outline">Bearbeiten</Button>
+                </Link>
+                <Button
+                  onClick={() => setShowInviteLink(!showInviteLink)}
+                  variant="outline"
+                >
+                  {showInviteLink ? "Link ausblenden" : "Einladen"}
+                </Button>
+              </>
+            ) : isMember ? (
               <Button onClick={handleLeave} variant="outline">
                 Verlassen
               </Button>
@@ -141,6 +212,34 @@ export function GroupDetail({ groupId, userId }: GroupDetailProps) {
             )}
           </div>
         </div>
+
+        {/* Einladungs-Link Bereich */}
+        {isOwner && showInviteLink && (
+          <div className="mt-4 p-4 bg-primary-50 rounded-lg border border-primary-200">
+            <h3 className="font-semibold text-gray-900 mb-2">Freunde einladen</h3>
+            <p className="text-sm text-gray-600 mb-3">
+              Teile diesen Link mit deinen Freunden, damit sie der Gruppe beitreten können:
+            </p>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={inviteUrl || "Lädt..."}
+                readOnly
+                className="flex-1 px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm"
+              />
+              <Button onClick={copyInviteLink} size="sm">
+                Kopieren
+              </Button>
+              <Button
+                onClick={handleGenerateInviteLink}
+                variant="outline"
+                size="sm"
+              >
+                Neu generieren
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Mitglieder */}
