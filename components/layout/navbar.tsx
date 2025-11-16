@@ -15,15 +15,15 @@ export async function Navbar() {
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-24">
           {/* Logo - deutlich größer */}
           <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
             <Image
               src="/logo.png"
               alt="AzuBite Logo"
-              width={200}
-              height={80}
-              className="h-16 w-auto"
+              width={300}
+              height={120}
+              className="h-20 w-auto"
               priority
             />
           </Link>
