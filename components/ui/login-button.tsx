@@ -6,10 +6,11 @@ import { cn } from "@/lib/utils";
 
 interface LoginButtonProps {
   href?: string;
-  onClick?: () => void;
+  onClick?: (e?: React.MouseEvent) => void;
   className?: string;
   children: React.ReactNode;
   variant?: "navbar" | "page";
+  type?: "button" | "submit";
 }
 
 export function LoginButton({
@@ -18,13 +19,15 @@ export function LoginButton({
   className,
   children,
   variant = "navbar",
+  type = "button",
 }: LoginButtonProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   const buttonContent = (
-    <div
+    <button
+      type={type}
       className={cn(
-        "relative overflow-hidden group",
+        "relative overflow-hidden group inline-block",
         variant === "navbar"
           ? "px-6 py-2.5 rounded-full"
           : "px-8 py-4 rounded-xl w-full",
@@ -35,6 +38,8 @@ export function LoginButton({
         "hover:scale-105 hover:shadow-xl hover:shadow-primary-500/60",
         "active:scale-95",
         "cursor-pointer",
+        "border-2 border-transparent hover:border-white/30",
+        "disabled:opacity-50 disabled:cursor-not-allowed",
         className
       )}
       onMouseEnter={() => setIsHovered(true)}
@@ -107,11 +112,15 @@ export function LoginButton({
 
       {/* Ripple Effect on Click */}
       <div className="absolute inset-0 rounded-full opacity-0 group-active:opacity-100 group-active:animate-ping bg-white/30" />
-    </div>
+    </button>
   );
 
   if (href) {
-    return <Link href={href}>{buttonContent}</Link>;
+    return (
+      <Link href={href} className="inline-block">
+        {buttonContent}
+      </Link>
+    );
   }
 
   return buttonContent;
