@@ -17,17 +17,29 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email" },
+        identifier: { label: "Email oder Benutzername", type: "text" },
         password: { label: "Passwort", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Email und Passwort sind erforderlich");
+        if (!credentials?.identifier || !credentials?.password) {
+          throw new Error("Email/Benutzername und Passwort sind erforderlich");
         }
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
+        // Prüfe ob es eine Email-Adresse ist (enthält @)
+        const isEmail = credentials.identifier.includes("@");
+        
+        let user;
+        if (isEmail) {
+          // Suche nach Email
+          user = await prisma.user.findUnique({
+            where: { email: credentials.identifier },
+          });
+        } else {
+          // Suche nach Name (Benutzername)
+          user = await prisma.user.findFirst({
+            where: { name: credentials.identifier },
+          });
+        }
 
         if (!user || !user.password) {
           throw new Error("Ungültige Anmeldedaten");
