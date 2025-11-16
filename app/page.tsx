@@ -2,7 +2,6 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { LoginButton } from "@/components/ui/login-button";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 

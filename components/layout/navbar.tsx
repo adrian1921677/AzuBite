@@ -3,7 +3,6 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { LoginButton } from "@/components/ui/login-button";
 
 export async function Navbar() {
   let session = null;
