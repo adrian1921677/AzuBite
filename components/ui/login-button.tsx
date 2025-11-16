@@ -11,6 +11,7 @@ interface LoginButtonProps {
   children: React.ReactNode;
   variant?: "navbar" | "page" | "hero";
   type?: "button" | "submit";
+  disabled?: boolean;
 }
 
 export function LoginButton({
@@ -20,6 +21,7 @@ export function LoginButton({
   children,
   variant = "navbar",
   type = "button",
+  disabled = false,
 }: LoginButtonProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -58,6 +60,7 @@ export function LoginButton({
       onMouseLeave={() => setIsHovered(false)}
       onMouseMove={handleMouseMove}
       onClick={onClick}
+      disabled={disabled}
     >
       {/* Animated Background Gradient - Mehrschichtig */}
       <div

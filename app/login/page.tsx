@@ -97,10 +97,7 @@ export default function LoginPage() {
           <LoginButton
             variant="page"
             type="submit"
-            onClick={(e) => {
-              e?.preventDefault();
-              handleSubmit(e as any);
-            }}
+            disabled={isLoading}
           >
             {isLoading ? (
               <span className="flex items-center gap-2">
