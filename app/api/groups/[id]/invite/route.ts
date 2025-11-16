@@ -47,10 +47,15 @@ export async function GET(
     const inviteUrl = `${baseUrl}/groups/invite/${inviteToken}`;
 
     return NextResponse.json({ inviteUrl, inviteToken });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Fehler beim Generieren des Einladungs-Links:", error);
+    console.error("Error details:", {
+      message: error?.message,
+      stack: error?.stack,
+      name: error?.name,
+    });
     return NextResponse.json(
-      { error: "Ein Fehler ist aufgetreten" },
+      { error: error?.message || "Ein Fehler ist aufgetreten" },
       { status: 500 }
     );
   }
@@ -96,10 +101,15 @@ export async function POST(
     const inviteUrl = `${baseUrl}/groups/invite/${inviteToken}`;
 
     return NextResponse.json({ inviteUrl, inviteToken });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Fehler beim Generieren des Einladungs-Links:", error);
+    console.error("Error details:", {
+      message: error?.message,
+      stack: error?.stack,
+      name: error?.name,
+    });
     return NextResponse.json(
-      { error: "Ein Fehler ist aufgetreten" },
+      { error: error?.message || "Ein Fehler ist aufgetreten" },
       { status: 500 }
     );
   }
