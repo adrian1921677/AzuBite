@@ -14,6 +14,9 @@ export default function NewGroupPage() {
   const { data: session } = useSession();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [avatarMethod, setAvatarMethod] = useState<"url" | "upload">("url");
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -25,6 +28,59 @@ export default function NewGroupPage() {
     router.push("/login");
     return null;
   }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const selectedFile = e.target.files[0];
+      
+      // Validiere Dateityp
+      const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif"];
+      if (!allowedTypes.includes(selectedFile.type)) {
+        toast.error("Nur Bilddateien (JPEG, PNG, WebP, GIF) sind erlaubt");
+        return;
+      }
+
+      // Validiere Dateigröße (max 5MB)
+      if (selectedFile.size > 5 * 1024 * 1024) {
+        toast.error("Bild ist zu groß (max. 5MB)");
+        return;
+      }
+
+      setAvatarFile(selectedFile);
+    }
+  };
+
+  const handleUploadAvatar = async () => {
+    if (!avatarFile) {
+      toast.error("Bitte wähle ein Bild aus");
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      const uploadFormData = new FormData();
+      uploadFormData.append("file", avatarFile);
+
+      const res = await fetch("/api/groups/avatar/upload", {
+        method: "POST",
+        body: uploadFormData,
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setFormData({ ...formData, avatar: data.url });
+        toast.success("Bild erfolgreich hochgeladen!");
+        setAvatarFile(null);
+      } else {
+        const error = await res.json();
+        toast.error(error.error || "Fehler beim Hochladen");
+      }
+    } catch (error) {
+      toast.error("Fehler beim Hochladen des Bildes");
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,25 +123,82 @@ export default function NewGroupPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Avatar */}
             <div>
-              <label htmlFor="avatar" className="block text-sm font-medium text-gray-700 mb-2">
-                Gruppenbild (URL)
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Gruppenbild
               </label>
-              <input
-                id="avatar"
-                type="url"
-                value={formData.avatar}
-                onChange={(e) => setFormData({ ...formData, avatar: e.target.value })}
-                placeholder="https://..."
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-              />
+              
+              {/* Tabs für URL oder Upload */}
+              <div className="flex gap-2 mb-3">
+                <button
+                  type="button"
+                  onClick={() => setAvatarMethod("url")}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    avatarMethod === "url"
+                      ? "bg-primary-500 text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  URL eingeben
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAvatarMethod("upload")}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    avatarMethod === "upload"
+                      ? "bg-primary-500 text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  Bild hochladen
+                </button>
+              </div>
+
+              {avatarMethod === "url" ? (
+                <>
+                  <input
+                    id="avatar"
+                    type="url"
+                    value={formData.avatar}
+                    onChange={(e) => setFormData({ ...formData, avatar: e.target.value })}
+                    placeholder="https://..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                  />
+                </>
+              ) : (
+                <div className="space-y-2">
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+                    onChange={handleFileChange}
+                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100"
+                  />
+                  {avatarFile && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-600">
+                        {avatarFile.name} ({(avatarFile.size / 1024 / 1024).toFixed(2)} MB)
+                      </span>
+                      <Button
+                        type="button"
+                        size="sm"
+                        onClick={handleUploadAvatar}
+                        disabled={isUploading}
+                      >
+                        {isUploading ? "Lädt..." : "Hochladen"}
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {formData.avatar && (
-                <div className="mt-2">
+                <div className="mt-3">
+                  <p className="text-sm text-gray-600 mb-2">Vorschau:</p>
                   <Image
                     src={formData.avatar}
                     alt="Vorschau"
-                    width={100}
-                    height={100}
-                    className="rounded-lg object-cover"
+                    width={120}
+                    height={120}
+                    className="rounded-lg object-cover border border-gray-200"
                     onError={() => toast.error("Bild konnte nicht geladen werden")}
                   />
                 </div>

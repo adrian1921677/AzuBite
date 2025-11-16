@@ -13,8 +13,8 @@ const s3Client = new S3Client({
 
 const BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME || process.env.R2_BUCKET_NAME || "";
 
-export async function uploadFile(file: Buffer, fileName: string, contentType: string): Promise<string> {
-  const key = `reports/${Date.now()}-${fileName}`;
+export async function uploadFile(file: Buffer, fileName: string, contentType: string, folder: string = "reports"): Promise<string> {
+  const key = `${folder}/${Date.now()}-${fileName}`;
 
   const command = new PutObjectCommand({
     Bucket: BUCKET_NAME,
